@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 	"strings"
+	"github.com/GodlikePenguin/GoServe/Utils"
 )
 
 type Directory struct {
@@ -14,9 +15,10 @@ type Directory struct {
 
 func (d Directory) createHttpStructure() []byte {
 	var output string
-	output += "<h1>" + d.name + "</h1>"
+	output += Utils.MakeTitle(d.name, 1)
 	output += "<table><tbody>"
-	output += "<tr><th>Name</th><th>Last modified</th><th>Size</th></tr><tr><th colspan=\"3\"><hr></th></tr>"
+	output += Utils.MakeTableRow(true, "Name", "Last modified", "Size")
+	output += "<tr><th colspan=\"3\"><hr></th></tr>"
 	prePath := d.name[2:]
 	if prePath == "/" {
 		prePath = ""
@@ -28,7 +30,7 @@ func (d Directory) createHttpStructure() []byte {
 		if size == "0" {
 			size = "-"
 		}
-		output += "<tr><td><a href=\"" + prePath + "/" + file.Name() + "\">" + file.Name() + "</a></td><td>" + file.ModTime().Format(time.UnixDate) + "</td><td>" + size + "</td></tr>"
+		output += Utils.MakeTableRow(false, "<a href=\"" + prePath + "/" + file.Name() + "\">" + file.Name() + "</a>", file.ModTime().Format(time.UnixDate), size)
 	}
 	output += "</tbody></table>"
 	output += "<style>td { padding-right: 10px; }</style>"

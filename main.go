@@ -5,19 +5,13 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"fmt"
 
 	"github.com/GodlikePenguin/GoServe/DirHandler"
-	"github.com/GodlikePenguin/GoServe/Utils"
 	"github.com/GodlikePenguin/GoServe/FileHandler"
+	"github.com/GodlikePenguin/GoServe/Utils"
 )
 
 func main() {
-	someString := "/Program Files"
-	fmt.Println(strings.LastIndex(someString, "/"))
-	fmt.Println(someString[:strings.LastIndex(someString, "/")])
-	//os.Exit(0)
-
 	http.HandleFunc("/", CustomFileServer)
 
 	log.Printf("Serving on HTTP port: %s\n", "8080")
@@ -25,7 +19,8 @@ func main() {
 }
 
 func CustomFileServer(w http.ResponseWriter, r *http.Request) {
-	rootDir := "D:/"
+	//rootDir := "D:/"
+	rootDir := os.Getenv("SERVE_LOCATION")
 	currentItem := rootDir + strings.TrimPrefix(r.URL.Path, "/")
 	log.Printf(currentItem)
 	item, err := os.Stat(currentItem)

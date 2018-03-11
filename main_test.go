@@ -9,9 +9,12 @@ import (
 )
 
 func TestCustomFileServer_valid_dir(t *testing.T) {
+	originalValue := os.Getenv("SERVE_LOCATION")
+	os.Setenv("SERVE_LOCATION", "D:/")
 	os.MkdirAll("D:/tmp/dir1", os.FileMode(0522))
 	os.MkdirAll("D:/tmp/dir2", os.FileMode(0522))
 	defer os.RemoveAll("D:/tmp")
+	defer os.Setenv("SERVE_LOCATION", originalValue)
 	req, err := http.NewRequest("GET", "/tmp", nil)
 	if err != nil {
 		t.Fatal(err)
