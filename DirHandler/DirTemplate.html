@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Go Serve</title>
+    <meta charset="UTF-8">
+    <style>td {
+        padding-right: 10px;
+    }</style>
+</head>
+<body>
+<h1>{{.Name}}</h1>
+<table>
+    <tbody>
+    <tr>
+        <th>Name</th>
+        <th>Last Modified</th>
+        <th>Size</th>
+    </tr>
+    <tr>
+        <th colspan="3">
+            <hr>
+        </th>
+    </tr>
+    <tr>
+        <td><a href="{{.BackPath}}">..</a></td>
+        <td></td>
+        <td></td>
+    </tr>
+    {{range .Files}}
+    <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Modified}}</td>
+        <td>{{.Size}}</td>
+    </tr>
+    {{end}}
+    </tbody>
+</table>
+</body>
+</html>

@@ -19,8 +19,10 @@ func main() {
 }
 
 func CustomFileServer(w http.ResponseWriter, r *http.Request) {
-	//rootDir := "D:/"
 	rootDir := os.Getenv("SERVE_LOCATION")
+	if !strings.HasSuffix(rootDir, "/") {
+		rootDir += "/"
+	}
 	currentItem := rootDir + strings.TrimPrefix(r.URL.Path, "/")
 	log.Printf(currentItem)
 	item, err := os.Stat(currentItem)
@@ -32,7 +34,7 @@ func CustomFileServer(w http.ResponseWriter, r *http.Request) {
 
 	switch mode := item.Mode(); {
 	case mode.IsDir():
-		DirHandler.DirHandler(w, r, currentItem)
+		DirHandler.DirHandler(w, r, currentItem, r.URL.Path)
 	case mode.IsRegular():
 		FileHandler.FileHandler(w, r, currentItem)
 	}
